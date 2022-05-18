@@ -49,7 +49,14 @@ export const ProductGrid: FC<ProductGridProps> = ({ className = '' }) => {
         ) : (
           data?.pages?.map((page: any) => {
             let data1;
-             Array.isArray(page?.data[0])? data1=page?.data[0]:data1=page?.data[1];
+             if(Array.isArray(page?.data[0])){
+              data1=page?.data[0]
+             }else if(Array.isArray(page?.data[1])){
+              data1=page?.data[1]
+             }
+             else{
+              data1=page?.data[2]
+             }
              console.log(data1);
              
             return data1?.map((product: Product) => (
