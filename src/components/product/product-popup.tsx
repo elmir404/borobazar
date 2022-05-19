@@ -68,13 +68,13 @@ export default function ProductPopup() {
     useState<boolean>(false);
   const [shareButtonStatus, setShareButtonStatus] = useState<boolean>(false);
   const { price, basePrice, discount } = usePrice({
-    amount: data.sale_price ? data.sale_price : data.price,
-    baseAmount: data.price,
-    currencyCode: 'USD',
+    amount: data.unitPrice? data.unitPrice : data.unitPrice,
+    baseAmount: data.unitPrice,
+    currencyCode: 'AZN',
   });
   const variations = getVariations(data.variations);
-  const { slug, image, name, unit, description, gallery, tag, quantity } = data;
-  const productUrl = `${process.env.NEXT_PUBLIC_SITE_URL}${ROUTES.PRODUCT}/${slug}`;
+  const { id, name, note } = data;
+  const productUrl = `${process.env.NEXT_PUBLIC_SITE_URL}${ROUTES.PRODUCT}/${id}`;
   const handleChange = () => {
     setShareButtonStatus(!shareButtonStatus);
   };
@@ -134,7 +134,7 @@ export default function ProductPopup() {
 
   function navigateToProductPage() {
     closeModal();
-    router.push(`${ROUTES.PRODUCT}/${slug}`);
+    router.push(`${ROUTES.PRODUCT}/${id}`);
   }
 
   useEffect(() => setSelectedQuantity(1), [data.id]);
@@ -146,7 +146,7 @@ export default function ProductPopup() {
         <div className="px-4 md:px-6 lg:p-8 2xl:p-10 mb-9 lg:mb-2 pt-4 md:pt-7 2xl:pt-10">
           <div className="lg:flex items-start justify-between">
             <div className="xl:flex items-center justify-center overflow-hidden mb-6 md:mb-8 lg:mb-0">
-              {!!gallery?.length ? (
+              {/* {!!gallery?.length ? (
                 <ThumbnailCarousel gallery={gallery} />
               ) : (
                 <div className="w-auto flex items-center justify-center">
@@ -157,7 +157,17 @@ export default function ProductPopup() {
                     height={590}
                   />
                 </div>
-              )}
+              )} */}
+              {
+                 <div className="w-auto flex items-center justify-center">
+                 <Image
+                   src={ productGalleryPlaceholder}
+                   alt={name!}
+                   width={650}
+                   height={590}
+                 />
+               </div>
+              }
             </div>
 
             <div className="flex-shrink-0 flex flex-col lg:ps-5 xl:ps-8 2xl:ps-10 lg:w-[430px] xl:w-[470px] 2xl:w-[480px]">
@@ -171,7 +181,7 @@ export default function ProductPopup() {
                     {name}
                   </h2>
                 </div>
-                {unit && isEmpty(variations) ? (
+                {/* {unit && isEmpty(variations) ? (
                   <div className="text-sm md:text-15px font-medium">{unit}</div>
                 ) : (
                   <VariationPrice
@@ -179,7 +189,7 @@ export default function ProductPopup() {
                     minPrice={data.min_price}
                     maxPrice={data.max_price}
                   />
-                )}
+                )} */}
 
                 {isEmpty(variations) && (
                   <div className="flex items-center mt-5">
@@ -215,7 +225,7 @@ export default function ProductPopup() {
                 {/* check that item isInCart and place the available quantity or the item quantity */}
                 {isEmpty(variations) && (
                   <>
-                    {Number(quantity) > 0 || !outOfStock ? (
+                    {/* {Number(quantity) > 0 || !outOfStock ? (
                       <span className="text-sm font-medium text-skin-yellow-two">
                         {t('text-only') +
                           ' ' +
@@ -227,7 +237,7 @@ export default function ProductPopup() {
                       <div className="text-base text-red-500 whitespace-nowrap">
                         {t('text-out-stock')}
                       </div>
-                    )}
+                    )} */}
                   </>
                 )}
 
@@ -310,7 +320,7 @@ export default function ProductPopup() {
                   </div>
                 </div>
               </div>
-              {tag && (
+              {/* {tag && (
                 <ul className="pt-5 xl:pt-6">
                   <li className="text-sm md:text-15px text-skin-base text-opacity-80 inline-flex items-center justify-center me-2 relative top-1">
                     <LabelIcon className="me-2" /> {t('text-tags')}:
@@ -321,14 +331,14 @@ export default function ProductPopup() {
                     </li>
                   ))}
                 </ul>
-              )}
+              )} */}
 
               <div className="pt-6 xl:pt-8">
                 <Heading className="mb-3 lg:mb-3.5">
                   {t('text-product-details')}:
                 </Heading>
-                <Text variant="small">
-                  {description.split(' ').slice(0, 40).join(' ')}
+                {/* <Text variant="small">
+                  {note.split(' ').slice(0, 40).join(' ')}
                   {'...'}
                   <span
                     onClick={navigateToProductPage}
@@ -337,7 +347,7 @@ export default function ProductPopup() {
                   >
                     {t('text-read-more')}
                   </span>
-                </Text>
+                </Text> */}
               </div>
             </div>
           </div>

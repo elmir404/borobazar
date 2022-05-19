@@ -25,7 +25,8 @@ export const ProductGrid: FC<ProductGridProps> = ({ className = '' }) => {
     data,
     error,
   } = useProductsQuery({ limit: LIMITS.PRODUCTS_LIMITS, ...query });
-  console.log(data);
+  
+  
   
   return (
     <>

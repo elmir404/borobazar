@@ -47,7 +47,7 @@ function RenderPopupOrAddToCart({ data }: { data: Product }) {
 }
 const ProductCard: React.FC<ProductProps> = ({ product, className }) => {
   const { name, image, unit, product_type } = product ?? {};
-  console.log("prodcuts:",product);
+  
   const { openModal } = useModalAction();
   const { t } = useTranslation('common');
   const { price, basePrice, discount } = usePrice({

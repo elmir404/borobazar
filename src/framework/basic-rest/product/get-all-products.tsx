@@ -7,15 +7,15 @@ type PaginatedProduct = {
   data: Product[];
   paginatorInfo: any;
 };
-const fetchProducts = async ({ queryKey }: any) => {
+const fetchProducts = async ({ queryKey,pageParam=1}: any) => {
   const [_key, _params] = queryKey;
-  const { data } = await http.get(API_ENDPOINTS.PRODUCTS,
+  const { data } = await http.get(`${API_ENDPOINTS.PRODUCTS}?_page=${pageParam}`,
        
     );
   return {
     data: shuffle(data) as Product[],
     paginatorInfo: {
-      nextPageUrl: '',
+      nextPageUrl:""
     },
   };
 };
@@ -25,7 +25,13 @@ const useProductsQuery = (options: QueryOptionsType) => {
     [API_ENDPOINTS.PRODUCTS, options],
     fetchProducts,
     {
-      getNextPageParam: ({ paginatorInfo }) => paginatorInfo.nextPageUrl,
+      getNextPageParam:  (_lastPage:any,pages:any)=>{
+        
+        if (_lastPage.pages<_lastPage.total_pages) return _lastPage +1;
+        else{
+          return false;
+        }
+      },
     }
   );
 };
