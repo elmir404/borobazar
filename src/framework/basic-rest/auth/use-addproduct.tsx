@@ -18,29 +18,13 @@ export interface AddProductType {
   // MarkTypeId:number,
   Files:any
 }
-async function addProduct(input: AddProductType) {
-  let data  = await http.post(API_ENDPOINTS.ADDPRODUCT,
-    JSON.stringify({
-    // Email: input.email,  
-    Name: input.productName,
-    // CategoryId: input.category,
-    
-    Files: input.Files,
-    // Phone:input.phone,
-    // City:input.city ,
-    UnitPrice:input.unitPrice,
-    Note:input.description,
-    // Model:input.userName,
-    // MarkTypeId:3
-  }),
-  {
-    // headers: {
-    //   // 'Accept': 'application/json',
-    //   'Content-Type': 'multipart/form-data;',
-      
-    // }
-   }
-  
+  async function addProduct(input: AddProductType) {
+
+    const formdata= new FormData();
+    formdata.append("note",input.description);
+    formdata.append("files",input.Files);
+
+  let data  =await  http.post(API_ENDPOINTS.ADDPRODUCT,formdata 
   );
   return {
     response:data.data

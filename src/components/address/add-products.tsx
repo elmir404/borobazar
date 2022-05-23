@@ -53,17 +53,18 @@ const AddProductForm: React.FC = () => {
   
   
    
-  // const onChange=(e:any)=>{
-  //   setValue("Files", e.target.files[0], { shouldValidate: true })
+  const onChange=(e:any)=>{
+    setValue("Files", e.target.files[0], { shouldValidate: true })
     
-  // }
+  }
 //   const fileUpload = (e:any) => {  
 //     
 // };
    
-  function onSubmit({ productName,Files,unitPrice,description,}:AddProductType ) {
+    function onSubmit({ productName,Files,unitPrice,description}:AddProductType ) {
     
-    addProduct({
+
+     addProduct({
       productName,
       unitPrice,
       Files,
@@ -109,7 +110,7 @@ const AddProductForm: React.FC = () => {
          </h4>
 
         <form
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit( onSubmit)}
             className="flex flex-col justify-center"
             noValidate
             encType="multipart/form-data"
@@ -155,13 +156,14 @@ const AddProductForm: React.FC = () => {
                   <p>drag drop</p>
               </label> */}
                
-                    {/* <input 
+                    <input 
                         type='file' 
-                        {...register('Files')}
-                        // onChange={onChange}
-                        placeholder="Upload an Image" 
-                        /> */}
-                <FileInput {...register('Files')} onDrop={onDrop}/>
+                        //{...register('Files')}
+                        // name="Files"
+                         onChange={onChange}
+                        placeholder="Upload an Image test" 
+                        />
+                {/* <FileInput {...register('Files')} onDrop={onDrop}/> */}
                 <div>
             {/* {
               !!files.length &&(
