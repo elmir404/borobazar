@@ -40,7 +40,8 @@ const CategoryDropdownSidebar: React.FC<CategorySidebarProps> = ({
               ))
             ) : (
               <SidebarMenu items={data?.categories?.data} />
-            )}
+            )
+            }
           </Scrollbar>
         )}
       </div>

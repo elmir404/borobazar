@@ -7,6 +7,9 @@ import SearchResultLoader from '@components/ui/loaders/search-result-loader';
 import useFreezeBodyScroll from '@utils/use-freeze-body-scroll';
 import Scrollbar from '@components/ui/scrollbar';
 import { useUI } from '@contexts/ui.context';
+import http from '@framework/utils/http';
+import { useQuery } from 'react-query';
+import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
 
 type Props = {
   className?: string;
@@ -34,6 +37,8 @@ const Search = React.forwardRef<HTMLDivElement, Props>(
     const { data, isLoading } = useSearchQuery({
       text: searchText,
     });
+    console.log("search data",data?.data.value);
+    
     useFreezeBodyScroll(
       inputFocus === true || displaySearch || displayMobileSearch
     );
@@ -102,7 +107,7 @@ const Search = React.forwardRef<HTMLDivElement, Props>(
                           />
                         </div>
                       ))
-                    : data?.map((item, index) => (
+                    : data?.data?.value?.map((item:any, index:any) => (
                         <div
                           key={`search-result-key-${index}`}
                           className="py-2.5 ps-5 pe-10 scroll-snap-align-start transition-colors duration-200 hover:bg-skin-two"

@@ -9,6 +9,7 @@ import { useCart } from '@contexts/cart/cart.context';
 import { AddToCart } from '@components/product/add-to-cart';
 import { useTranslation } from 'next-i18next';
 import { productPlaceholder } from '@assets/placeholders';
+import { IoIosHeart, IoIosHeartEmpty } from 'react-icons/io';
 
 interface ProductProps {
   product: Product;
@@ -28,7 +29,7 @@ function RenderPopupOrAddToCart({ data }: { data: Product }) {
   if (Number(quantity) < 1 || outOfStock) {
     return (
       <span className="text-[11px] md:text-xs font-bold text-skin-inverted uppercase inline-block bg-skin-red rounded-full px-2.5 pt-1 pb-[3px] mx-0.5 sm:mx-1">
-        {t('text-out-stock')}
+        <IoIosHeart className="text-2xl md:text-[26px] me-2 transition-all" />
       </span>
     );
   }
@@ -39,7 +40,8 @@ function RenderPopupOrAddToCart({ data }: { data: Product }) {
         aria-label="Count Button"
         onClick={handlePopupView}
       >
-        <PlusIcon width={iconSize} height={iconSize} opacity="1" />
+        {/* <PlusIcon width={iconSize} height={iconSize} opacity="1" /> */}
+        <IoIosHeartEmpty className="text-2xl md:text-[26px] me-2 transition-all group-hover:text-skin-primary" />
       </button>
     );
   }

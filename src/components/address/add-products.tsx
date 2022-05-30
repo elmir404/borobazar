@@ -15,33 +15,38 @@ import {useDropzone} from 'react-dropzone'
 
 import { useAddProductMutation, AddProductType} from '@framework/auth/use-addproduct';
 import { FaFileUpload } from 'react-icons/fa';
+import { initialState } from '@contexts/cart/cart.reducer';
 const AddProductForm: React.FC = () => {
   const { t } = useTranslation('common');
 
 
   const { mutate: addProduct, isLoading,data } = useAddProductMutation();
-  const { closeModal } = useModalAction();
+  const { closeModal,openModal } = useModalAction();
   // const fileInput = useRef();
   // const onDrop = useCallback(acceptedFiles => {
   //   // Do something with the files
   // }, [])
   // const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
-  // const [file,setFile] =useState(null);
+  const [Files,setFile] =useState([]);
   const [image,setImage] =useState([]);
-
+//  console.log("files add",Files);
  
+if(data?.response.success){
+  closeModal();
+  openModal('PRODUCT_SUCCESS');
+ }
   //   fileReader.readAsDataURL(file);
     
      
   // }
-  // const {
-  //   data,
+  const {
+    data:category,
       
-  //   isLoading: loading,
-  //   error,
-  // } = useCategoriesQuery({
-  //   limit: 15,
-  // });
+    isLoading: loading,
+    error,
+  } = useCategoriesQuery({
+    limit: 15,
+  });
   // console.log(data);
   const {
     register,
@@ -54,14 +59,15 @@ const AddProductForm: React.FC = () => {
   
    
   const onChange=(e:any)=>{
-    setValue("Files", e.target.files[0], { shouldValidate: true })
-    
+    setValue("Files", e.target.files, { shouldValidate: true })
+   setFile(e.target.files)
   }
 //   const fileUpload = (e:any) => {  
 //     
 // };
    
-    function onSubmit({ productName,Files,unitPrice,description}:AddProductType ) {
+    function onSubmit({ productName,Files,unitPrice,description,city,phone,userName,amount,MarkTypeId,category,email}:AddProductType ) {
+    
     
 
      addProduct({
@@ -69,7 +75,13 @@ const AddProductForm: React.FC = () => {
       unitPrice,
       Files,
       description,
-      
+      city,
+      phone,
+      userName,
+      amount,
+      MarkTypeId,
+      category,
+      email
       
     });
     
@@ -122,18 +134,92 @@ const AddProductForm: React.FC = () => {
                 placeholder={t('forms:placeholder-product')}
 
                 variant="outline"
-                {...register('productName')}
-                
+                {...register('productName', {
+                  required: 'forms:last-name-required',
+                })}
+                error={errors.productName?.message}
               />
           </div>
-          
+          <div className="flex flex-row mb-3 mt-3">
+               <div className="block ml-2">
+                  <label
+                        htmlFor="category"
+                        className="block font-normal text-sm leading-none mb-3 cursor-pointer text-skin-base text-opacity-70"
+                        
+                        
+                      >
+                        {t('forms:label-category')}
+                      </label>
+                <div className='relative'>
+                        {error ? (
+                  <div className="2xl:pe-10">
+                    <Alert message={error.message} />
+                  </div>
+                      ) : loading ? (
+                        Array.from({ length: 1 }).map((_, idx) => (
+                          <CategoryListCardLoader
+                            key={`category-list-${idx}`}  
+                            uniqueKey="category-list-card-loader"
+                          />
+                        ))
+                      ) : (
+                        <select  {...register('category', {
+                          required: 'forms:last-name-required',
+                        })}  className='border border-solid border-gray-300 block rounded  focus:border-2 focus:border-skin-primary focus:outline-none py-2 px-4 w-full appearance-none transition duration-150 ease-in-out border text-input text-13px lg:text-sm font-body rounded placeholder-[#B3B3B3] min-h-12 transition duration-200 ease-in-out text-skin-base ' >
+                        <CategorySelectMenu   items={category?.categories?.data.slice(0,15)} />
+                        </select>
+                      )}
+                  
+                </div>
+             </div>
+             <div className="block ml-2">
+                  <label
+                        htmlFor="city"
+                        className="block font-normal text-sm leading-none mb-3 cursor-pointer text-skin-base text-opacity-70"
+                        
+                        
+                      >
+                        {t('forms:label-city-product')}
+                      </label>
+                <div className='relative'>
+                    <select {...register('city', {
+                  required: 'forms:last-name-required',
+                })} className='border border-solid border-gray-300 block rounded  focus:border-2 focus:border-skin-primary focus:outline-none py-2.5 px-5 w-full appearance-none transition duration-150 ease-in-out border text-input text-13px  font-body rounded placeholder-[#B3B3B3] min-h-12 transition duration-200 ease-in-out text-skin-base  ' >
+                        <option selected>{t('forms:label-city-product')}</option>
+                          <option value="1">Baki</option>
+                          <option value="2">Gence</option>
+                          <option value="3">Qebele</option>
+                          <option value="4">Sumqayit</option>
+                          <option value="1">Baki</option>
+                          <option value="2">Gence</option>
+                          <option value="3">Qebele</option>
+                          <option value="4">Sumqayit</option>
+                          <option value="1">Baki</option>
+                          <option value="2">Gence</option>
+                          <option value="3">Qebele</option>
+                          <option value="4">Sumqayit</option>
+                          <option value="1">Baki</option>
+                          <option value="2">Gence</option>
+                          <option value="3">Qebele</option>
+                          <option value="4">Sumqayit</option>
+                          <option value="1">Baki</option>
+                          <option value="2">Gence</option>
+                          <option value="3">Qebele</option>
+                          <option value="4">Sumqayit</option>
+                    </select>
+              </div>
+            </div>
+          </div>
           <div className="flex flex-col mb-3 ">
               <Input
                 label={t('forms:price-label')}
                 type="number"
                 placeholder={t('forms:placeholder-price')}
                 variant="outline"
-                {...register('unitPrice')}
+                {...register('unitPrice', {
+                  required: 'forms:last-name-required',
+                })}
+                error={errors.unitPrice?.message}
               />
               
           </div>
@@ -141,9 +227,13 @@ const AddProductForm: React.FC = () => {
           <TextArea
                   variant="solid"
                   label="forms:description-label"
-                  {...register('description')}
+                  {...register('description', {
+                    required: 'forms:last-name-required',
+                  })}
                   placeholder="forms:placeholder-briefly-describe"
+                  error={errors.description?.message}
                 />
+                
            </div>
            <div className="flex flex-col mb-3 "  >
              {/* <label {...getRootProps()} >
@@ -158,9 +248,10 @@ const AddProductForm: React.FC = () => {
                
                     <input 
                         type='file' 
-                        //{...register('Files')}
+                        // {...register('Files')}
                         // name="Files"
                          onChange={onChange}
+                        multiple
                         placeholder="Upload an Image test" 
                         />
                 {/* <FileInput {...register('Files')} onDrop={onDrop}/> */}

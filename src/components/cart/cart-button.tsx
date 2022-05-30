@@ -3,6 +3,7 @@ import { useCart } from '@contexts/cart/cart.context';
 import { useUI } from '@contexts/ui.context';
 import { useTranslation } from 'next-i18next';
 import cn from 'classnames';
+import { IoIosHeart, IoIosHeartEmpty } from 'react-icons/io';
 
 type CartButtonProps = {
   className?: string;
@@ -36,14 +37,15 @@ const CartButton: React.FC<CartButtonProps> = ({
       aria-label="cart-button"
     >
       <div className="flex items-center relative">
-        <CartIcon className={cn(iconClassName)} />
+      <IoIosHeart className="text-2xl md:text-[26px] me-2 transition-all fill-red-500" />
+        
         <span className="cart-counter-badge flex items-center justify-center bg-skin-primary text-skin-inverted absolute -top-2.5 start-2.5 rounded-full font-bold">
           {totalItems}
         </span>
       </div>
       {!hideLabel && (
         <span className="text-sm lg:text-15px text-skin-base font-normal ms-2">
-          {t('text-cart')}
+          {t('text-wishlist')}
         </span>
       )}
     </button>

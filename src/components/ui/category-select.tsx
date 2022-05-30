@@ -86,11 +86,14 @@ function CategoryMenuItem2({  item }: any) {
       </>
   );
 }
-function CategorySelectMenu({ items, className }: any) {
-  
+function CategorySelectMenu({ items, }: any) {
+  //  console.log("ref",ref);
+  //  console.log("rest",...rest);
+   
+   
 
   return (
-  <select  className='border border-solid border-gray-300 block rounded  focus:border-2 focus:border-skin-primary focus:outline-none py-2 px-4 w-full appearance-none transition duration-150 ease-in-out border text-input text-13px lg:text-sm font-body rounded placeholder-[#B3B3B3] min-h-12 transition duration-200 ease-in-out text-skin-base ' >
+  <>
          <option value="">Siyahıdan seçin</option>
         
          {items?.map((item1: any) => (
@@ -98,7 +101,7 @@ function CategorySelectMenu({ items, className }: any) {
            <CategoryMenuItem item={item1} />
         
       ))}
-  </select>
+  </>
   );
 }
 

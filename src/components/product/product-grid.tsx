@@ -25,6 +25,8 @@ export const ProductGrid: FC<ProductGridProps> = ({ className = '' }) => {
     data,
     error,
   } = useProductsQuery({ limit: LIMITS.PRODUCTS_LIMITS, ...query });
+  console.log("product grid",data?.pages);
+  
   
   
   
@@ -50,9 +52,9 @@ export const ProductGrid: FC<ProductGridProps> = ({ className = '' }) => {
         ) : (
           data?.pages?.map((page: any) => {
             let data1;
-             if(Array.isArray(page?.data[0])){
+             if(typeof page.data[0] =='object'){
               data1=page?.data[0]
-             }else if(Array.isArray(page?.data[1])){
+             }else if(typeof page.data[1] =='object'){
               data1=page?.data[1]
              }
              else{
@@ -60,7 +62,7 @@ export const ProductGrid: FC<ProductGridProps> = ({ className = '' }) => {
              }
              console.log(data1);
              
-            return data1?.map((product: Product) => (
+            return data1?.value.map((product: Product) => (
               <ProductCard
                 key={`product--key-${product.id}`}
                 product={product}

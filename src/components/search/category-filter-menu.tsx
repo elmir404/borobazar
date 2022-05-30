@@ -21,8 +21,8 @@ function CategoryFilterMenuItem({
   const { t } = useTranslation('common');
   const router = useRouter();
   const { pathname, query } = router;
-  const selectedCategories = useMemo(
-    () => (query?.category ? (query.category as string).split(',') : []),
+  let selectedCategories = useMemo(
+    () => (query?.category ? (query.category as string).split(',',1) : []),
     [query?.category]
   );
   const isActive =
@@ -46,13 +46,17 @@ function CategoryFilterMenuItem({
   };
 
   function onClick() {
+    
     if (Array.isArray(items) && !!items.length) {
-      toggleCollapse();
-    } else {
       const { category, ...restQuery } = query;
-      let currentFormState = selectedCategories.includes(name)
-        ? selectedCategories.filter((i) => i !== name)
-        : [...selectedCategories, name];
+      
+      let currentFormState;
+        if(selectedCategories.length >0){
+          selectedCategories=[],
+        currentFormState=[...selectedCategories, name]
+        }else{
+         currentFormState=[...selectedCategories, name]
+        }
       router.push(
         {
           pathname,
@@ -68,6 +72,42 @@ function CategoryFilterMenuItem({
       );
 
       displaySidebar && closeSidebar();
+      toggleCollapse();
+    } else {
+      // if(selectedCategories.length >0){
+      //   selectedCategories.filter((i) => i == name)
+      // }
+      const { category, ...restQuery } = query;
+      // let currentFormState = selectedCategories.includes(name)
+      //   ? selectedCategories.filter((i) => i !== name)
+      //   :[...selectedCategories, name]
+      //   if(selectedCategories.length >0){
+      //     currentFormState= selectedCategories.filter((i) => i == name);
+      //     currentFormState=[...selectedCategories, name]
+      //    } 
+      
+      let currentFormState;
+      if(selectedCategories.length >0){
+        selectedCategories=[],
+        currentFormState=[...selectedCategories, name]
+       }else{
+         currentFormState=[...selectedCategories, name]
+       }
+      router.push(
+        {
+          pathname,
+          query: {
+            ...restQuery,
+            ...(!!currentFormState.length
+              ? { category: currentFormState.join(',') }
+              : {}),
+          },
+        },
+        undefined,
+        { scroll: false }
+      );
+      toggleCollapse();
+      // displaySidebar && closeSidebar();
     }
   }
 
@@ -95,7 +135,7 @@ function CategoryFilterMenuItem({
             'flex items-center w-full text-start cursor-pointer group',
             { 'py-3 xl:py-3.5 2xl:py-2.5 3xl:py-3': depth > 0 }
           )}
-          // onClick={handleChange}
+         onClick={handleChange}
         >
           {icon && (
             <div className="inline-flex flex-shrink-0 2xl:w-12 2xl:h-12 3xl:w-auto 3xl:h-auto me-2.5 md:me-4 2xl:me-3 3xl:me-4">

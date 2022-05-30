@@ -23,6 +23,13 @@ export const siteSettings = {
     width: 128,
     height: 30,
   },
+  success: {
+    url: '/assets/images/success.png',
+    alt: 'Success',
+    href: '/',
+    width: 128,
+    height: 120,
+  },
   defaultLanguage: 'az',
   currencyCode: 'AZN',
   site_header: {
