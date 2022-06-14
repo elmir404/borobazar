@@ -1,4 +1,5 @@
-import type { FC } from 'react';
+import type { FC} from 'react';
+import { useState} from 'react';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import Alert from '@components/ui/alert';
@@ -25,19 +26,23 @@ export const ProductGrid: FC<ProductGridProps> = ({ className = '' }) => {
     data,
     error,
   } = useProductsQuery({ limit: LIMITS.PRODUCTS_LIMITS, ...query });
-  console.log("product grid",data?.pages);
-  
-  
+  console.log("product grid",data?.pages[0].dataCount);
+ 
+ 
   
   
   return (
     <>
-      <div
+      <div className="flex-shrink-0 text-skin-base font-medium text-15px leading-4 md:me-6 hidden lg:block mb-2">
+            {data?.pages[0].dataCount} {t('text-items-found')}
+          </div>
+        <div
         className={cn(
           'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 gap-3 md:gap-4 2xl:gap-5',
           className
         )}
       >
+        
         {error ? (
           <div className="col-span-full">
             <Alert message={error?.message} />
@@ -60,7 +65,7 @@ export const ProductGrid: FC<ProductGridProps> = ({ className = '' }) => {
              else{
               data1=page?.data[2]
              }
-             console.log(data1);
+             
              
             return data1?.value.map((product: Product) => (
               <ProductCard

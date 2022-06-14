@@ -48,15 +48,26 @@ function CategoryFilterMenuItem({
   function onClick() {
     
     if (Array.isArray(items) && !!items.length) {
+     
+      selectedCategories=[];
       const { category, ...restQuery } = query;
+       
       
-      let currentFormState;
-        if(selectedCategories.length >0){
-          selectedCategories=[],
+      // let currentFormState;
+      //   if(selectedCategories.length >0){
+      //     selectedCategories=[],
+      //   currentFormState=[...selectedCategories, name]
+      //   }else{
+      //    currentFormState=[...selectedCategories, name]
+      //   }
+      
+      let currentFormState = selectedCategories.includes(name)
+      ? selectedCategories.filter((i) => i !== name)
+      :[...selectedCategories, name]
+      if(selectedCategories.length >0){
+        currentFormState= selectedCategories.filter((i) => i == name);
         currentFormState=[...selectedCategories, name]
-        }else{
-         currentFormState=[...selectedCategories, name]
-        }
+       } 
       router.push(
         {
           pathname,
@@ -70,29 +81,34 @@ function CategoryFilterMenuItem({
         undefined,
         { scroll: false }
       );
-
-      displaySidebar && closeSidebar();
       toggleCollapse();
+      
+    //   displaySidebar && closeSidebar();
+    //  console.log(displaySidebar,closeSidebar);
     } else {
       // if(selectedCategories.length >0){
       //   selectedCategories.filter((i) => i == name)
       // }
+      selectedCategories=[];
+      toggleCollapse();
       const { category, ...restQuery } = query;
-      // let currentFormState = selectedCategories.includes(name)
-      //   ? selectedCategories.filter((i) => i !== name)
-      //   :[...selectedCategories, name]
-      //   if(selectedCategories.length >0){
-      //     currentFormState= selectedCategories.filter((i) => i == name);
-      //     currentFormState=[...selectedCategories, name]
-      //    } 
       
-      let currentFormState;
-      if(selectedCategories.length >0){
-        selectedCategories=[],
-        currentFormState=[...selectedCategories, name]
-       }else{
-         currentFormState=[...selectedCategories, name]
-       }
+
+      let currentFormState = selectedCategories.includes(name)
+        ? selectedCategories.filter((i) => i !== name)
+        :[...selectedCategories, name]
+        if(selectedCategories.length >0){
+          currentFormState= selectedCategories.filter((i) => i == name);
+          currentFormState=[...selectedCategories, name]
+         } 
+      
+      // let currentFormState;
+      // if(selectedCategories.length >0){
+      //   selectedCategories=[],
+      //   currentFormState=[...selectedCategories, name]
+      //  }else{
+      //    currentFormState=[...selectedCategories, name]
+      //  }
       router.push(
         {
           pathname,
@@ -106,8 +122,9 @@ function CategoryFilterMenuItem({
         undefined,
         { scroll: false }
       );
-      toggleCollapse();
-      // displaySidebar && closeSidebar();
+      
+    //   
+    //  displaySidebar && closeSidebar();
     }
   }
 

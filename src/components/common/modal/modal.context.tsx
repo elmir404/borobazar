@@ -10,6 +10,7 @@ type MODAL_VIEWS =
   | 'DELIVERY_VIEW'
   | 'PRODUCT_VIEW'
   |  'PRODUCT_SUCCESS'
+  |  'DELETE-PRODUCT'
   | 'CATEGORY_VIEW';
 
 interface State {

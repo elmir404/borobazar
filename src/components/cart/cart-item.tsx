@@ -14,8 +14,8 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
   const { isInStock, addItemToCart, removeItemFromCart, clearItemFromCart } =
     useCart();
   const { price: totalPrice } = usePrice({
-    amount: item?.itemTotal,
-    currencyCode: 'USD',
+    amount: item.unitPrice,
+    currencyCode: 'AZN',
   });
   const outOfStock = !isInStock(item.id);
   return (
@@ -44,7 +44,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
       <div className="flex w-full overflow-hidden items-start justify-between">
         <div className="ps-3 md:ps-4">
           <Link
-            href={`${ROUTES.PRODUCT}/${item?.slug}`}
+            href={`${ROUTES.PRODUCT}/${item?.id}`}
             className="block text-skin-base text-13px sm:text-sm lg:text-15px transition-all leading-5 hover:text-skin-primary"
           >
             {item?.name}

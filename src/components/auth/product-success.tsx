@@ -5,7 +5,8 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'next-i18next';
 import { useModalAction } from '@components/common/modal/modal.context';
 import CloseButton from '@components/ui/close-button';
-
+import Link from '@components/ui/link'
+import { ROUTES } from '@utils/routes';
 
 function handleSignIn() {
   
@@ -38,15 +39,16 @@ const ProductSuccess = () => {
           {t('common:products-link')}
         </span>
       </div>
-      <div className="text-sm sm:text-15px text-skin-muted text-center">
+      <div className="text-sm sm:text-15px text-skin-muted text-center" onClick={closeModal}>
         {t('common:link')}{' '}
-        <button
-          type="button"
+        <Link
+            href={ROUTES.USERPRODUCT}
+            
           className="text-skin-base underline font-medium hover:no-underline focus:outline-none"
-          onClick={handleSignIn}
+          
         >
           {t('common:myproduct')}
-        </button>
+        </Link>
       </div>
     </div>
   );

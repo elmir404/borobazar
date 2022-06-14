@@ -10,7 +10,7 @@ import { AddToCart } from '@components/product/add-to-cart';
 import { useTranslation } from 'next-i18next';
 import { productPlaceholder } from '@assets/placeholders';
 import { IoIosHeart, IoIosHeartEmpty } from 'react-icons/io';
-
+import { isArray } from 'lodash';
 interface ProductProps {
   product: Product;
   className?: string;
@@ -20,23 +20,32 @@ function RenderPopupOrAddToCart({ data }: { data: Product }) {
   const { id, quantity, product_type } = data ?? {};
   const { width } = useWindowSize();
   const { openModal } = useModalAction();
-  const { isInCart, isInStock } = useCart();
-  const iconSize = width! > 1024 ? '19' : '17';
+  const { isInCart, isInStock,removeItemFromCart } = useCart();
+  const iconSize = width! > 480 ? '19' : '17';
   const outOfStock = isInCart(id) && !isInStock(id);
   function handlePopupView() {
     openModal('PRODUCT_VIEW', data);
   }
+  const handleRemoveClick = (e: any) => {
+    e.stopPropagation();
+    removeItemFromCart(id);
+  };
   if (Number(quantity) < 1 || outOfStock) {
     return (
-      <span className="text-[11px] md:text-xs font-bold text-skin-inverted uppercase inline-block bg-skin-red rounded-full px-2.5 pt-1 pb-[3px] mx-0.5 sm:mx-1">
-        <IoIosHeart className="text-2xl md:text-[26px] me-2 transition-all" />
-      </span>
+      <button
+      className="bg-transparent rounded-full w-8 lg:w-10 h-8 lg:h-10 text-skin-inverted text-4xl flex items-center justify-center focus:outline-none"
+      aria-label="Count Button"
+      onClick={handleRemoveClick}
+      
+    >
+        <IoIosHeart width={iconSize} height={iconSize}  color='red' />
+      </button>
     );
   }
   if (product_type === 'variable') {
     return (
       <button
-        className="inline-flex bg-skin-primary rounded-full w-8 lg:w-10 h-8 lg:h-10 text-skin-inverted text-4xl items-center justify-center focus:outline-none focus-visible:outline-none"
+        className="inline-flex bg-transparent rounded-full w-8 lg:w-10 h-8 lg:h-10 text-skin-inverted text-4xl items-center justify-center focus:outline-none focus-visible:outline-none"
         aria-label="Count Button"
         onClick={handlePopupView}
       >
@@ -48,8 +57,10 @@ function RenderPopupOrAddToCart({ data }: { data: Product }) {
   return <AddToCart data={data} />;
 }
 const ProductCard: React.FC<ProductProps> = ({ product, className }) => {
-  const { name, image, unit, product_type } = product ?? {};
-  
+  const { name, images, unit, product_type } = product ?? {};
+  const image=Array.isArray(images)? `data:image/jpeg;base64,${images[0]}`:productPlaceholder;
+  //  console.log(`image:image/jpeg;base64,${image}`);
+   
   const { openModal } = useModalAction();
   const { t } = useTranslation('common');
   const { price, basePrice, discount } = usePrice({
@@ -81,7 +92,7 @@ const ProductCard: React.FC<ProductProps> = ({ product, className }) => {
       <div className="relative flex-shrink-0">
         <div className="flex overflow-hidden max-w-[230px] mx-auto transition duration-200 ease-in-out transform group-hover:scale-105 relative">
           <Image
-            src={productPlaceholder}
+            src={image}
             alt={name || 'Product Image'}
             width={230}
             height={200}

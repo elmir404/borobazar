@@ -8,6 +8,9 @@ module.exports = withPWA({
     dest: 'public',
     runtimeCaching,
   },
+  images: {
+    domains: ['localhost'],
+  },
   i18n,
   typescript: {
     ignoreBuildErrors: true,

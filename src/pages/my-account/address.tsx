@@ -1,7 +1,7 @@
 import Layout from '@components/layout/layout';
 import AccountLayout from '@components/my-account/account-layout';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import AddressGrid from '@components/address/address-grid';
+import AddressGrid from '@components/products/address-grid';
 import { useAddressQuery } from '@framework/address/address';
 import { GetStaticProps } from 'next';
 import Seo from '@components/seo/seo';

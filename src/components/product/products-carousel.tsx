@@ -13,8 +13,9 @@ import { getDirection } from '@utils/get-direction';
 
 interface ProductsCarouselProps {
   sectionHeading: string;
-  categorySlug?: string;
+  categoryName?: string;
   className?: string;
+  productId?:string;
   products?: Product[];
   loading: boolean;
   error?: string;
@@ -52,7 +53,8 @@ const breakpoints = {
 
 const ProductsCarousel: React.FC<ProductsCarouselProps> = ({
   sectionHeading,
-  categorySlug,
+  categoryName,
+  productId,
   className = 'mb-8 lg:mb-10 xl:mb-12',
   products,
   loading,
@@ -99,7 +101,7 @@ const ProductsCarousel: React.FC<ProductsCarouselProps> = ({
               ))
             ) : (
               <>
-                {products?.map((product: any, idx) => (
+                {products?.filter(product=>product.id !==productId).map((product: any, idx) => (
                   <SwiperSlide
                     key={`${uniqueKey}-${idx}`}
                     className="px-1.5 md:px-2 xl:px-2.5 py-4"
@@ -108,7 +110,7 @@ const ProductsCarousel: React.FC<ProductsCarouselProps> = ({
                   </SwiperSlide>
                 ))}
                 <SwiperSlide className="p-2.5 flex items-center justify-center">
-                  <SeeAll href={categorySlug} />
+                  <SeeAll href={categoryName} />
                 </SwiperSlide>
                 {width! > 1024 && width! < 1921 && <SwiperSlide />}
               </>

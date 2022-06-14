@@ -1,6 +1,8 @@
 import { useModalAction } from '@components/common/modal/modal.context';
 import CloseButton from '@components/ui/close-button';
 import { useCategoriesQuery } from '@framework/category/get-all-categories';
+import { useLoggedUserQuery } from '@framework/auth/use-loggedUser';
+
 import Alert from '@components/ui/alert';
 import CategoryListCardLoader from '@components/ui/loaders/category-list-card-loader';
 import { useTranslation } from 'next-i18next';
@@ -29,6 +31,7 @@ const AddProductForm: React.FC = () => {
   // const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
   const [Files,setFile] =useState([]);
   const [image,setImage] =useState([]);
+  const [isActive, setActive] = useState(false);
 //  console.log("files add",Files);
  
 if(data?.response.success){
@@ -47,7 +50,16 @@ if(data?.response.success){
   } = useCategoriesQuery({
     limit: 15,
   });
-  // console.log(data);
+
+  const {
+    data:user,
+      
+    isLoading: loading1,
+    
+  } = useLoggedUserQuery({
+    limit: 15,
+  });
+  console.log("add product",user?.data?.data?.firstName,loading1);
   const {
     register,
     handleSubmit,
@@ -55,8 +67,15 @@ if(data?.response.success){
     watch,
     formState: { errors },
   } = useForm<AddProductType>();
-  
-  
+ 
+  // setValue("userName",fullName);
+  // setValue("email",user?.data?.data?.emial);
+  // setValue("phone",user?.data?.data?.phone);
+
+  const toggleClass = () => {
+
+    setActive(!isActive);
+  };
    
   const onChange=(e:any)=>{
     setValue("Files", e.target.files, { shouldValidate: true })
@@ -116,17 +135,18 @@ if(data?.response.success){
     <div className="flex bg-skin-fill mx-auto rounded-lg w-full lg:w-[1000px] 2xl:w-[1200px]">
       <CloseButton onClick={closeModal} />
       <div className="flex bg-skin-fill mx-auto rounded-lg overflow-hidden w-full">
-      <div className="w-full md:w-[55%] xl:w-[50%] py-6 sm:py-10 px-4 sm:px-8 lg:px-12 flex flex-col justify-center">
+      <form
+        onSubmit={handleSubmit( onSubmit)}
+        className="flex flex-row w-full lg:w-[1000px] 2xl:w-[1200px]"
+        noValidate
+        encType="multipart/form-data"
+      >
+      <div className="w-full  py-6 sm:py-10 px-4 sm:px-8 lg:px-12 flex flex-col justify-center">
         <h4 className="text-skin-base font-semibold text-xl sm:text-2xl  sm:pt-3 text-center ">
               {t('common:text-add-product')}
          </h4>
 
-        <form
-            onSubmit={handleSubmit( onSubmit)}
-            className="flex flex-col justify-center"
-            noValidate
-            encType="multipart/form-data"
-          >
+       
           <div className="flex flex-col mb-3 ">
               <Input
                 label={t('forms:label-product-name')}
@@ -139,6 +159,7 @@ if(data?.response.success){
                 })}
                 error={errors.productName?.message}
               />
+            
           </div>
           <div className="flex flex-row mb-3 mt-3">
                <div className="block ml-2">
@@ -273,54 +294,80 @@ if(data?.response.success){
                 </div>
               )
             } */}
-      </div> 
+       </div> 
                {/* <input type="file"  {...register('Files', {
                 })} /> */}
                  
            </div>
            <hr/>
-           {/* <Heading variant="title" className="mb-5 mt-1.5">
-           {t('forms:personal-information')}
-           </Heading>
-           <div className="flex flex-col mb-3 ">
-            <Input
-                  label={t('forms:label-name')}
-                  placeholder={t('forms:placeholder-name')}
-
-                  type="text"
-                  // 
-                  variant="outline"
-                  {...register('userName', {
-                    required: 'forms:name-required',
-                  })}
-                  error={errors.userName?.message}
-                />
-           </div> */}
-           {/* <div className="flex flex-row mb-3 ">
+           
+           
+        
+      </div>
+      <div className="w-full  py-6 sm:py-10 px-4 sm:px-8 lg:px-12 flex flex-col bg-emerald-200">
+          <div className='mb-5'>
+                <h4 className="text-skin-base font-semibold text-xl sm:text-2xl  sm:pt-3 text-center ">
+                              {t('common:product-terms')}
+                        
+                        </h4>
+                    <ul className="list-disc mt-5">
+                    <li>Now this is a story all about how,  upside down</li>
+                    <li>my life got flipped turned</li>
+                    <li>my life got flipped turned</li>
+                    <li>my life got flipped turned</li>
+                    </ul>
+                    </div>
+                <hr />
+                <Button
+                  type="button"
+                  className="py-2 px-4 w-full appearance-none transition duration-150 ease-in-out border text-input text-13px lg:text-sm font-body rounded  min-h-12 transition duration-200 ease-in-out text-skin-base "
+                  variant='border'
+                  onClick={toggleClass}
+                >
+                  {t('forms:personal-information')}
+            </Button>
+            <div className={ 'mt-3'}>
+              <div className="flex flex-col mb-3 ">
                 <Input
-                      label={t('forms:label-email-star')}
+                      label={t('forms:label-name')}
+                      placeholder={t('forms:placeholder-name')}
+                      defaultValue={loading1? "" :user?.data?.data?.firstName+" "+user?.data?.data?.lastName}
                       type="text"
                       // 
-                      placeholder={t('forms:placeholder-email')}
                       variant="outline"
-                      {...register('email', {
-                        required: 'forms:email-required',
+                      {...register('userName', {
+                        required: 'forms:name-required',
                       })}
-                      error={errors.email?.message}
+                      error={errors.userName?.message}
                     />
-                <Input
-                  label={t('forms:label-phone')}
-                  type="text"
-                  // 
-                  placeholder={t('forms:placeholder-phone')}
-
-                  variant="outline"
-                  {...register('phone', {
-                    required: 'forms:phone-required',
-                  })}
-                  error={errors.phone?.message}
-                />
-           </div> */}
+              </div> 
+                <div className="flex flex-row mb-3 ">
+                      <Input
+                            label={t('forms:label-email-star')}
+                            type="text"
+                            defaultValue={loading1 ? null :user?.data?.data?.emial}
+                            // 
+                            placeholder={t('forms:placeholder-email')}
+                            variant="outline"
+                            {...register('email', {
+                              required: 'forms:email-required',
+                            })}
+                            error={errors.email?.message}
+                          />
+                      <Input
+                        label={t('forms:label-phone')}
+                        type="text"
+                        // 
+                        placeholder={t('forms:placeholder-phone')}
+                         defaultValue={loading1 ? null :user?.data?.data?.phone}
+                        variant="outline"
+                        {...register('phone', {
+                          required: 'forms:phone-required',
+                        })}
+                        error={errors.phone?.message}
+                      />
+                </div> 
+           </div>
            <div className="relative">
                 <Button
                   type="submit"
@@ -331,20 +378,9 @@ if(data?.response.success){
                 >
                   {t('common:button-submit')}
                 </Button>
-              </div>
-         </form>
+           </div>
       </div>
-      <div className="w-full md:w-[45%] xl:w-[50%] py-6 sm:py-10 px-4 sm:px-8 lg:px-12 flex flex-col bg-emerald-200">
-      <h4 className="text-skin-base font-semibold text-xl sm:text-2xl  sm:pt-3 text-center ">
-              {t('common:product-terms')}
-         </h4>
-          <ul className="list-disc mt-5">
-          <li>Now this is a story all about how,  upside down</li>
-          <li>my life got flipped turned</li>
-          <li>my life got flipped turned</li>
-          <li>my life got flipped turned</li>
-          </ul>
-      </div>
+     </form>
       </div>
     </div>
   );

@@ -6,22 +6,34 @@ import { useInfiniteQuery } from 'react-query';
 import { isQueryKey } from 'react-query/types/core/utils';
 type PaginatedProduct = {
   data: Product[];
+  dataCount:number;
   paginatorInfo: any;
 };
-const fetchProducts = async ({queryKey,pageParam=1,}: any) => {
+const fetchProducts = async ({queryKey,pageParam='1'}: any) => {
   const [_key, _params] = queryKey;
-    console.log(_params?.category)
+  const {limit,category="",sort_by=""}=_params;
+  //  const {page=1} =pageParam
+  if(pageParam==null){
+    pageParam='1';
+    
+  }
+     console.log(_params)
     let link;
-    if(typeof _params?.category=="undefined"){
-         link=`${API_ENDPOINTS.SEARCH}?currentPage=${pageParam}&pageSize=${_params.limit}&CategoryName=${_params.category=""}`
+    // if(typeof _params?.category=="undefined"){
+         link=`${API_ENDPOINTS.SEARCH}?currentPage=${pageParam}&pageSize=${limit}&sortField=${sort_by}&CategoryName=${category}`
          console.log(link);
          
-    }else{
-      link=`${API_ENDPOINTS.SEARCH}?currentPage=${pageParam}&pageSize=${_params.limit}&CategoryName=${_params.category}`
-      console.log(link);
-    }
+    // }else{
+    //   link=`${API_ENDPOINTS.SEARCH}?currentPage=${pageParam}&pageSize=${_params.limit}&CategoryName=${_params.category}`
+    //   console.log(link);
+    // }
+    //  link=`${API_ENDPOINTS.RELATED_PRODUCTS}?categoryId=1`
+
   const { data } = await http.get(link);
+  console.log("data count",data?.data.dataCount);
+  
   return {
+    dataCount:data.data.dataCount,
     data: shuffle(data) as Product[],
     paginatorInfo: {
       nextPageUrl:""
@@ -48,7 +60,10 @@ const useProductsQuery = (options: QueryOptionsType) => {
         }
         
         if (data1.currentPage<data1.pageCount) {
-          return data1.currentPage +1
+         
+           return  data1.currentPage +1;
+          
+
         }
         else{
           return false;

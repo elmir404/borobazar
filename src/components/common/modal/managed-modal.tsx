@@ -23,7 +23,10 @@ const PhoneNumberPopup = dynamic(
   () => import('@components/common/form/add-contact')
 );
 const DeliveryAddresses = dynamic(
-  () => import('@components/address/add-products')
+  () => import('@components/products/add-products')
+);
+const DeleteProduct = dynamic(
+  () => import('@components/products/delete-product')
 );
 const CategoryPopup = dynamic(
   () => import('@components/category/category-popup')
@@ -50,6 +53,8 @@ const ManagedModal: React.FC = () => {
       {view === 'PAYMENT' && <PaymentPopup />}
       {view === 'PHONE_NUMBER' && <PhoneNumberPopup />}
       {view === 'DELIVERY_VIEW' && <DeliveryAddresses />}
+      {view === 'DELETE-PRODUCT' && <DeleteProduct />}
+
     </Modal>
   );
 };

@@ -3,14 +3,16 @@ import http from '@framework/utils/http';
 import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
 import { useQuery } from 'react-query';
 
-export const fetchWishlistProducts = async ({ queryKey }: any) => {
+export const fetchUserProducts = async ({ queryKey }: any) => {
   const [_key, _params] = queryKey;
-  const { data } = await http.get(API_ENDPOINTS.WISHLIST);
+  const { data } = await http.get(API_ENDPOINTS.USERPRODUCT);
+  console.log(data);
+  
   return data;
 };
-export const useWishlistProductsQuery = (options: QueryOptionsType) => {
+export const userProducts = (options: QueryOptionsType) => {
   return useQuery<Product[], Error>(
-    [API_ENDPOINTS.WISHLIST, options],
-    fetchWishlistProducts
+    [API_ENDPOINTS.USERPRODUCT, options],
+    fetchUserProducts
   );
 };

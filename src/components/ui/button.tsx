@@ -4,7 +4,7 @@ import { ImSpinner2 } from 'react-icons/im';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
-  variant?: 'primary' | 'border' | 'formButton';
+  variant?: 'primary' | 'border' | 'formButton' | 'cancel';
   active?: boolean;
   type?: 'submit' | 'reset' | 'button';
   loading?: boolean;
@@ -27,6 +27,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
     {
       'h-12 md:h-14 bg-skin-primary text-skin-inverted tracking-widest px-5 md:px-6 lg:px-8 py-4 md:py-3.5 lg:py-4 hover:text-white hover:bg-opacity-90':
         variant === 'primary',
+        'h-12 md:h-14 bg-red-700 text-skin-inverted tracking-widest px-5 md:px-6 lg:px-8 py-4 md:py-3.5 lg:py-4 hover:text-white hover:bg-opacity-90':
+        variant === 'cancel',
       'h-12 md:h-14 bg-skin-inverted text-skin-base border border-skin-four tracking-widest px-5 md:px-6 lg:px-8 py-4 md:py-3.5 lg:py-4':
         variant === 'border',
       'h-11 md:h-[50px] bg-skin-primary text-skin-inverted font-manrope px-5 lg:px-6 py-4 md:py-3.5 lg:py-4 hover:text-white hover:bg-opacity-90 focus:bg-opacity-70':

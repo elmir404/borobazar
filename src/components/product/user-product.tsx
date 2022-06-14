@@ -1,21 +1,23 @@
-import WishlistProductCard from '@components/product/wishlist-product-card';
 import type { FC } from 'react';
-import { useWishlistProductsQuery } from '@framework/product/get-wishlist-product';
+import { userProducts } from '@framework/product/get-user-product';
 import ProductCardLoader from '@components/ui/loaders/product-card-loader';
 import Alert from '@components/ui/alert';
 import cn from 'classnames';
-interface ProductWishlistProps {
+import UserProductCart from '@components/product/user-product-card';
+interface ProductUserProps {
   element?: any;
   className?: string;
 }
-const ProductWishlistGrid: FC<ProductWishlistProps> = ({
+const ProductUserGrid: FC<ProductUserProps> = ({
   element,
   className = '',
 }) => {
   const limit = 35;
-  const { data, isLoading, error } = useWishlistProductsQuery({
+  let { data, isLoading, error } = userProducts({
     limit: limit,
   });
+  console.log("data",data?.data);
+  
   return (
     <div className={cn(className)}>
       {error ? (
@@ -29,8 +31,8 @@ const ProductWishlistGrid: FC<ProductWishlistProps> = ({
                   uniqueKey={`product--key-${idx}`}
                 />
               ))
-            : data?.map((product: any) => (
-                <WishlistProductCard
+            : data?.data.map((product: any) => (
+                <UserProductCart
                   key={`product--key${product.id}`}
                   product={product}
                 />
@@ -40,4 +42,4 @@ const ProductWishlistGrid: FC<ProductWishlistProps> = ({
     </div>
   );
 };
-export default ProductWishlistGrid;
+export default ProductUserGrid;

@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { getToken } from './get-token';
-
 const http = axios.create({
   baseURL: process.env.NEXT_PUBLIC_REST_API_ENDPOINT,
   timeout: 30000,
@@ -8,6 +7,7 @@ const http = axios.create({
     Accept: 'application/json',
     'Content-Type': 'application/json',
   },
+   withCredentials: true
 });
 
 // Change request data/error here

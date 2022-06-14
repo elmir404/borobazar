@@ -32,7 +32,7 @@ const PopularProductWithBestDeals: React.FC<ProductFeedProps> = ({
         name="grid"
         className="md:grid grid-cols-7 lg:grid-cols-5 2xl:grid-cols-7 gap-3 lg:gap-5 xl:gap-7"
       >
-        <div className="md:sticky md:top-16 lg:top-20 md:h-[600px] lg:h-[690px] 3xl:h-auto col-span-3 lg:col-span-2 mb-3 md:mb-0">
+        {/* <div className="md:sticky md:top-16 lg:top-20 md:h-[600px] lg:h-[690px] 3xl:h-auto col-span-3 lg:col-span-2 mb-3 md:mb-0">
           <div className="border-2 border-skin-yellow-three h-auto 3xl:h-full rounded-md overflow-hidden shadow-card">
             <h2 className="bg-skin-yellow-three text-center font-bold text-skin-base font-manrope p-2.5 text-15px lg:text-base">
               {t('text-deals-of-the-week')}
@@ -42,7 +42,7 @@ const PopularProductWithBestDeals: React.FC<ProductFeedProps> = ({
               date={Date.now() + 4000000 * 60}
             />
           </div>
-        </div>
+        </div> */}
         <div className="col-span-4 lg:col-span-3 2xl:col-span-5 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 gap-3 md:gap-4 2xl:gap-5">
           {error ? (
             <Alert message={error?.message} className="col-span-full" />

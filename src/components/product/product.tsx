@@ -29,10 +29,15 @@ const ProductSingleDetails: React.FC = () => {
   const { t } = useTranslation('common');
   const router = useRouter();
   const {
-    query: {Id},
+    query: {slug},
   } = router;
+  
+  console.log("router",slug);
+  
   const { width } = useWindowSize();
-  const { data, isLoading } = useProductQuery(Id as undefined);
+  const { data, isLoading } = useProductQuery(slug as undefined);
+  console.log(data?.data);
+  const image=Array.isArray(data?.data?.images)? `data:image/jpeg;base64,${data?.data?.images[0]}`:'/product-placeholder.svg';
   const { addItemToCart, isInCart, getItemFromCart, isInStock } = useCart();
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [attributes, setAttributes] = useState<{ [key: string]: string }>({});
@@ -55,36 +60,36 @@ const ProductSingleDetails: React.FC = () => {
     setShareButtonStatus(!shareButtonStatus);
   };
   if (isLoading) return <p>Loading...</p>;
-  // const variations = getVariations(data?.variations);
+  const variations = getVariations(data?.variations);
 
-  // const isSelected = !isEmpty(variations)
-  //   ? !isEmpty(attributes) &&
-  //     Object.keys(variations).every((variation) =>
-  //       attributes.hasOwnProperty(variation)
-  //     )
-  //   : true;
+  const isSelected = !isEmpty(variations)
+    ? !isEmpty(attributes) &&
+      Object.keys(variations).every((variation) =>
+        attributes.hasOwnProperty(variation)
+      )
+    : true;
   let selectedVariation: any = {};
-  // if (isSelected) {
-  //   // const dataVaiOption: any = data?.variation_options;
-  //   selectedVariation = dataVaiOption?.find((o: any) =>
-  //     isEqual(
-  //       o.options.map((v: any) => v.value).sort(),
-  //       Object.values(attributes).sort()
-  //     )
-  //   );
-  // }
-  // const item = generateCartItem(data!, selectedVariation);
-  // const outOfStock = isInCart(item.id) && !isInStock(item.id);
+  if (isSelected) {
+    const dataVaiOption: any = data?.variation_options;
+    selectedVariation = dataVaiOption?.find((o: any) =>
+      isEqual(
+        o.options.map((v: any) => v.value).sort(),
+        Object.values(attributes).sort()
+      )
+    );
+  }
+  const item = generateCartItem(data!, selectedVariation);
+  const outOfStock = isInCart(item.id) && !isInStock(item.id);
   function addToCart() {
-    // if (!isSelected) return;
-    // // to show btn feedback while product carting
-    // setAddToCartLoader(true);
-    // setTimeout(() => {
-    //   setAddToCartLoader(false);
-    // }, 1500);
+    if (!isSelected) return;
+    // to show btn feedback while product carting
+    setAddToCartLoader(true);
+    setTimeout(() => {
+      setAddToCartLoader(false);
+    }, 1500);
 
-    // const item = generateCartItem(data!, selectedVariation);
-    // addItemToCart(item, quantity);
+    const item = generateCartItem(data!, selectedVariation);
+    addItemToCart(item, quantity);
     toast('Added to the bag', {
       progressClassName: 'fancy-progress-bar',
       position: width! > 768 ? 'bottom-right' : 'top-right',
@@ -118,10 +123,10 @@ const ProductSingleDetails: React.FC = () => {
   return (
     <div className="pt-6 md:pt-7 pb-2">
       <div className="lg:grid grid-cols-10 gap-7 2xl:gap-8">
-        {/* <div className="col-span-5 xl:col-span-6 overflow-hidden mb-6 md:mb-8 lg:mb-0">
-          {!!data?.gallery?.length ? (
+        <div className="col-span-5 xl:col-span-6 overflow-hidden mb-6 md:mb-8 lg:mb-0">
+          {!!data?.data?.images?.length ? (
             <ThumbnailCarousel
-              gallery={data?.gallery}
+              gallery={data?.data?.images}
               thumbnailClassName="xl:w-[700px] 2xl:w-[900px]"
               galleryClassName="xl:w-[150px] 2xl:w-[170px]"
             />
@@ -129,25 +134,25 @@ const ProductSingleDetails: React.FC = () => {
           (
             <div className="w-auto flex items-center justify-center">
               <Image
-                // src={data?.image?.original ?? '/product-placeholder.svg'}
+                src={image}
                 alt={data?.name!}
                 width={900}
                 height={680}
               />
             </div>
           )}
-        </div> */}
+        </div>
 
         <div className="flex-shrink-0 flex flex-col col-span-5 xl:col-span-4 xl:ps-2">
           <div className="pb-3 lg:pb-5">
             <div className="md:mb-2.5 block -mt-1.5">
               <h2 className="text-skin-base text-lg md:text-xl xl:text-2xl font-medium transition-colors duration-300">
-                {data?.name}
+                {data?.data?.name}
               </h2>
             </div>
-            {/* {data?.unit && isEmpty(variations) ? (
+            {data?.unit && isEmpty(variations) ? (
               <div className="text-sm md:text-15px font-medium">
-                {data?.unit}
+                {data?.data?.unitPrice}
               </div>
             ) : (
               <VariationPrice
@@ -155,9 +160,9 @@ const ProductSingleDetails: React.FC = () => {
                 minPrice={data?.minUnitPrice}
                 maxPrice={data?.maxUnitPrice  }
               />
-            )} */}
+            )}
 
-            {/* {isEmpty(variations) && (
+            {isEmpty(variations) && (
               <div className="flex items-center mt-5">
                 <div className="text-skin-base font-bold text-base md:text-xl xl:text-[22px]">
                   {price}
@@ -173,10 +178,10 @@ const ProductSingleDetails: React.FC = () => {
                   </>
                 )}
               </div>
-            )} */}
+            )}
           </div>
 
-          {/* {Object.keys(variations).map((variation) => {
+          {Object.keys(variations).map((variation) => {
             return (
               <ProductAttributes
                 key={`popup-attribute-key${variation}`}
@@ -185,11 +190,11 @@ const ProductSingleDetails: React.FC = () => {
                 setAttributes={setAttributes}
               />
             );
-          })} */}
+          })}
 
           <div className="pb-2">
             {/* check that item isInCart and place the available quantity or the item quantity */}
-            {/* {isEmpty(variations) && (
+            {isEmpty(variations) && (
               <>
                 {Number(quantity) > 0 || !outOfStock ? (
                   <span className="text-sm font-medium text-skin-yellow-two">
@@ -205,7 +210,7 @@ const ProductSingleDetails: React.FC = () => {
                   </div>
                 )}
               </>
-            )} */}
+            )}
 
             {!isEmpty(selectedVariation) && (
               <span className="text-sm font-medium text-skin-yellow-two">
@@ -231,12 +236,12 @@ const ProductSingleDetails: React.FC = () => {
               onDecrement={() =>
                 setSelectedQuantity((prev) => (prev !== 1 ? prev - 1 : 1))
               }
-              // disabled={
-              //   // isInCart(item.id)
-              //   //   ? getItemFromCart(item.id).quantity + selectedQuantity >=
-              //   //     Number(item.stock)
-              //   //   : selectedQuantity >= Number(item.stock)
-              // }
+              disabled={
+                isInCart(item.id)
+                  ? getItemFromCart(item.id).quantity + selectedQuantity >=
+                    Number(item.stock)
+                  : selectedQuantity >= Number(item.stock)
+              }
             />
             <Button
               onClick={addToCart}

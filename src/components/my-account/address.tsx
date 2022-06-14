@@ -1,5 +1,5 @@
 import Layout from '@components/layout/layout';
-import AddressGrid from '@components/address/address-grid';
+import AddressGrid from '@components/products/address-grid';
 import { useAddressQuery } from '@framework/address/address';
 
 export default function AccountDetailsPage() {

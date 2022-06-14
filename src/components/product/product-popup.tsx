@@ -73,7 +73,7 @@ export default function ProductPopup() {
     currencyCode: 'AZN',
   });
   const variations = getVariations(data.variations);
-  const { id, name, note } = data;
+  const { id, name, note,categoryId,image } = data;
   const productUrl = `${process.env.NEXT_PUBLIC_SITE_URL}${ROUTES.PRODUCT}/${id}`;
   const handleChange = () => {
     setShareButtonStatus(!shareButtonStatus);
@@ -146,8 +146,8 @@ export default function ProductPopup() {
         <div className="px-4 md:px-6 lg:p-8 2xl:p-10 mb-9 lg:mb-2 pt-4 md:pt-7 2xl:pt-10">
           <div className="lg:flex items-start justify-between">
             <div className="xl:flex items-center justify-center overflow-hidden mb-6 md:mb-8 lg:mb-0">
-              {/* {!!gallery?.length ? (
-                <ThumbnailCarousel gallery={gallery} />
+              {!!image?.length ? (
+                <ThumbnailCarousel gallery={image} />
               ) : (
                 <div className="w-auto flex items-center justify-center">
                   <Image
@@ -157,7 +157,7 @@ export default function ProductPopup() {
                     height={590}
                   />
                 </div>
-              )} */}
+              )}
               {
                  <div className="w-auto flex items-center justify-center">
                  <Image
@@ -337,7 +337,7 @@ export default function ProductPopup() {
                 <Heading className="mb-3 lg:mb-3.5">
                   {t('text-product-details')}:
                 </Heading>
-                {/* <Text variant="small">
+                <Text variant="small">
                   {note.split(' ').slice(0, 40).join(' ')}
                   {'...'}
                   <span
@@ -347,13 +347,15 @@ export default function ProductPopup() {
                   >
                     {t('text-read-more')}
                   </span>
-                </Text> */}
+                </Text>
               </div>
             </div>
           </div>
         </div>
         <RelatedProductFeed
           carouselBreakpoint={breakpoints}
+          categoryId={categoryId}
+          productId={id}
           className="mb-0.5 md:mb-2 lg:mb-3.5 xl:mb-4 2xl:mb-6"
         />
       </div>

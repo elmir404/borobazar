@@ -23,9 +23,9 @@ const accountMenu = [
     icon: <OrdersIcon className="w-5 md:w-[22px] h-5 md:h-[22px]" />,
   },
   {
-    slug: ROUTES.WISHLIST,
-    name: 'text-wishlist',
-    icon: <WishlistIcon className="w-5 md:w-[22px] h-5 md:h-[22px]" />,
+    slug: ROUTES.USERPRODUCT,
+    name: 'text-products',
+    icon: <OrdersIcon className="w-5 md:w-[22px] h-5 md:h-[22px]" />,
   },
   {
     slug: ROUTES.ADDRESS,

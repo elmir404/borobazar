@@ -16,12 +16,13 @@ async function login(input: LoginInputType) {
     password: input.password
     
   }),
+ 
   {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'}
-   }
-  
+   },
+   
   );
   return {
     response:data.data

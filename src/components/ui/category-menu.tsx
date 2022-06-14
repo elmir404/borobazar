@@ -1,4 +1,6 @@
 import cn from 'classnames';
+import { useRouter } from 'next/router';
+import {useMemo} from 'react';
 import { useTranslation } from 'next-i18next';
 import Link from '@components/ui/link';
 import { IoIosArrowForward } from 'react-icons/io';
@@ -7,18 +9,68 @@ import { ROUTES } from '@utils/routes';
 
 function SidebarMenuItem({ className, item, depth = 0, }: any) {
   const { t } = useTranslation('common');
+  const router = useRouter();
+  let { pathname, query } = router;
+  pathname="/search";
+  
+  let selectedCategories = useMemo(
+    () => (query?.category ? (query.category as string).split(',',1) : []),
+    [query?.category]
+  );
+ 
+
   const { name, subCategories: items, icon } = item;
+  function onClick() {
+    
+    
+     
+      selectedCategories=[];
+      const { category, ...restQuery } = query;
+       
+      
+      // let currentFormState;
+      //   if(selectedCategories.length >0){
+      //     selectedCategories=[],
+      //   currentFormState=[...selectedCategories, name]
+      //   }else{
+      //    currentFormState=[...selectedCategories, name]
+      //   }
+      
+      
+        
+      let currentFormState=[...selectedCategories, name]
+      
+      router.push(
+        {
+          pathname,
+          query: {
+            ...restQuery,
+            ...(!!currentFormState.length
+              ? { category: currentFormState.join(',') }
+              : {}),
+          },
+        },
+        undefined,
+        { scroll: false }
+      );
+     
+      
+    //   displaySidebar && closeSidebar();
+    //  console.log(displaySidebar,closeSidebar);
+    
+  }
   return (
     <>
       <li
         className={`flex justify-between items-center transition ${
           className
             ? className
-            : 'text-sm hover:text-skin-primary px-3.5 2xl:px-4 py-2.5 border-b border-skin-base last:border-b-0'
+            : 'text-sm hover:text-skin-primary hover:cursor-pointer px-3.5 2xl:px-4 py-2.5 border-b border-skin-base last:border-b-0'
         }`}
       >
-        <Link
-          href={ROUTES.SEARCH}
+        <div
+          onClick={onClick}
+          
           className={cn(
             'flex items-center w-full text-start outline-none focus:outline-none focus:ring-0 focus:text-skin-base'
           )}
@@ -41,7 +93,7 @@ function SidebarMenuItem({ className, item, depth = 0, }: any) {
               <IoIosArrowForward className="text-15px text-skin-base text-opacity-40" />
             </span>
           )}
-        </Link>
+        </div>
         {Array.isArray(items) ? (
           <div className="hidden md:block absolute z-10 left-full top-0 w-full h-full bg-skin-fill border border-skin-base rounded-md opacity-0 invisible">
             <ul key="content" className={cn(

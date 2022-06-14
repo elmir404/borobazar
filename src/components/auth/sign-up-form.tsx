@@ -31,6 +31,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
   const [remember, setRemember] = useState(false);
   if(data?.response.success){
     closeModal();
+    openModal('LOGIN_VIEW');
    }
   const {
     register,
@@ -58,9 +59,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
       gender,
       remember_me,
     });
-    if(isSuccess){
-      closeModal();
-    }
+    
     
   }
   return (
@@ -160,7 +159,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
                   // },
                 })}
                 error={errors.email?.message}
-                errorApi={""}
+                errorApi={data?.response.message==="this email already registered"?"forms:dublicate-email":""}
               />
               </div>
              <div className="flex flex-row mb-3 mt-3 ">

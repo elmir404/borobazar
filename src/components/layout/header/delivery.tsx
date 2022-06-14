@@ -15,8 +15,8 @@ const Delivery: React.FC<DeliveryProps> = ({ className }) => {
   const { isAuthorized } = useUI();
   const { openModal } = useModalAction();
   function handleDeliveryView() {
-    // !isAuthorized ? openModal('LOGIN_VIEW') : openModal('DELIVERY_VIEW');
-    openModal('DELIVERY_VIEW');
+    !isAuthorized ? openModal('LOGIN_VIEW') : openModal('DELIVERY_VIEW');
+    // openModal('DELIVERY_VIEW');
   }
 
   return (

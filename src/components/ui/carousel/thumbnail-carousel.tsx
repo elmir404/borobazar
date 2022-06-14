@@ -41,6 +41,7 @@ const ThumbnailCarousel: React.FC<Props> = ({
   const nextRef = useRef<HTMLDivElement>(null);
   const { locale } = useRouter();
   const dir = getDirection(locale);
+console.log("gallery",gallery);
 
   return (
     <div className="w-full xl:flex xl:flex-row-reverse">
@@ -61,12 +62,16 @@ const ThumbnailCarousel: React.FC<Props> = ({
           {...swiperParams}
         >
           {gallery?.map((item: any) => (
+           console.log(item),
+           
+            
             <SwiperSlide
               key={`product-gallery-${item.id}`}
               className="flex items-center justify-center"
             >
+               
               <Image
-                src={item?.original ?? productGalleryPlaceholder}
+                src={`data:image/jpeg;base64,${item}`}
                 alt={`Product gallery ${item.id}`}
                 width={650}
                 height={590}
@@ -109,7 +114,7 @@ const ThumbnailCarousel: React.FC<Props> = ({
               className="flex items-center justify-center cursor-pointer rounded overflow-hidden border border-skin-base transition hover:opacity-75"
             >
               <Image
-                src={item?.thumbnail ?? productGalleryPlaceholder}
+                src={`data:image/jpeg;base64,${item}` ?? productGalleryPlaceholder}
                 alt={`Product thumb gallery ${item.id}`}
                 width={170}
                 height={170}

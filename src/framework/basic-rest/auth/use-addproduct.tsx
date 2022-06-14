@@ -9,7 +9,7 @@ export interface AddProductType {
   productName:string,
   category:string,
   // Files:File;
-  phone:number,
+  phone:string,
   userName: string;
   city:string,
   unitPrice:any,
@@ -34,9 +34,9 @@ export interface AddProductType {
     // formdata.append("productName",input.productName);
     formdata.append("UnitPrice",input.unitPrice);
     formdata.append("MarkTypeId","3");
-    formdata.append("Email","3@Sasas");
-    formdata.append("Phone","3233");
-    formdata.append("Model","3233");
+    formdata.append("Email",input.email);
+    formdata.append("Phone",input.phone);
+    formdata.append("Model",input.userName);
 
 
 

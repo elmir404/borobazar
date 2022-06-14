@@ -13,6 +13,12 @@ export type CategoriesQueryOptionsType = {
   status?: string;
   limit?: number;
 };
+export type UserQueryOptionsType = {
+  text?: string;
+  category?: string;
+  status?: string;
+  limit?: number;
+};
 export type ProductsQueryOptionsType = {
   type: string;
   text?: string;
@@ -36,6 +42,12 @@ export type Attachment = {
   thumbnail: string;
   original: string;
 };
+export type User = {
+  firstName:string;
+  lastName:string;
+  emial:string;
+  phone:any;
+}
 export type Category = {
   id: number | string;
   baseCategoryId?: number | string;
@@ -82,8 +94,8 @@ export type Tag = {
 export type Product = {
   id: number | string;
   name: string;
-  
-  
+  images:any;
+  dataCount:number;
   model:string;
  
   producer: string;

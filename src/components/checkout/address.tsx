@@ -1,5 +1,5 @@
 import { useAddressQuery } from '@framework/address/address';
-import AddressGrid from '@components/address/address-grid';
+import AddressGrid from '@components/products/address-grid';
 
 const AddressPage: React.FC = () => {
   let { data, isLoading } = useAddressQuery();
