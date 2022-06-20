@@ -24,7 +24,6 @@ export interface AddProductType {
     
     for (let i = 0 ; i < input.Files.length ; i++) {
       formdata.append("Files", input.Files[i]);
-      console.log("file input:",input.Files[i]);
       }
     formdata.append("Note",input.description);
     // formdata.append("files",input.Files);

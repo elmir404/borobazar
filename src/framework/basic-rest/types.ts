@@ -95,6 +95,7 @@ export type Product = {
   id: number | string;
   name: string;
   images:any;
+  files:any;
   dataCount:number;
   model:string;
  

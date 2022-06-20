@@ -37,7 +37,6 @@ const Search = React.forwardRef<HTMLDivElement, Props>(
     const { data, isLoading } = useSearchQuery({
       text: searchText,
     });
-    console.log("search data",data?.data.value);
     
     useFreezeBodyScroll(
       inputFocus === true || displaySearch || displayMobileSearch

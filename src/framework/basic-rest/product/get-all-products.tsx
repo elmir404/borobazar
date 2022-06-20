@@ -17,11 +17,9 @@ const fetchProducts = async ({queryKey,pageParam='1'}: any) => {
     pageParam='1';
     
   }
-     console.log(_params)
     let link;
     // if(typeof _params?.category=="undefined"){
          link=`${API_ENDPOINTS.SEARCH}?currentPage=${pageParam}&pageSize=${limit}&sortField=${sort_by}&CategoryName=${category}`
-         console.log(link);
          
     // }else{
     //   link=`${API_ENDPOINTS.SEARCH}?currentPage=${pageParam}&pageSize=${_params.limit}&CategoryName=${_params.category}`
@@ -30,7 +28,6 @@ const fetchProducts = async ({queryKey,pageParam='1'}: any) => {
     //  link=`${API_ENDPOINTS.RELATED_PRODUCTS}?categoryId=1`
 
   const { data } = await http.get(link);
-  console.log("data count",data?.data.dataCount);
   
   return {
     dataCount:data.data.dataCount,
@@ -42,7 +39,6 @@ const fetchProducts = async ({queryKey,pageParam='1'}: any) => {
 };
 
 const useProductsQuery = (options: QueryOptionsType) => {
-  console.log("options:",options);
   
   return useInfiniteQuery<PaginatedProduct, Error> (
     [API_ENDPOINTS.PRODUCTS, options],

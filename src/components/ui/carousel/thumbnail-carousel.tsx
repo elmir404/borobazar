@@ -41,7 +41,6 @@ const ThumbnailCarousel: React.FC<Props> = ({
   const nextRef = useRef<HTMLDivElement>(null);
   const { locale } = useRouter();
   const dir = getDirection(locale);
-console.log("gallery",gallery);
 
   return (
     <div className="w-full xl:flex xl:flex-row-reverse">
@@ -62,17 +61,16 @@ console.log("gallery",gallery);
           {...swiperParams}
         >
           {gallery?.map((item: any) => (
-           console.log(item),
            
             
             <SwiperSlide
-              key={`product-gallery-${item.id}`}
+              key={`product-gallery-${item.fileBytes.slice(0,2)}`}
               className="flex items-center justify-center"
             >
                
               <Image
-                src={`data:image/jpeg;base64,${item}`}
-                alt={`Product gallery ${item.id}`}
+                src={`data:image/jpeg;base64,${item.fileBytes}`}
+                alt={`Product gallery ${item.fileBytes.slice(0,2)}`}
                 width={650}
                 height={590}
                 className="rounded-lg"
@@ -110,12 +108,12 @@ console.log("gallery",gallery);
         >
           {gallery?.map((item: any) => (
             <SwiperSlide
-              key={`product-thumb-gallery-${item.id}`}
+              key={`product-thumb-gallery-${item.fileBytes.slice(0,2)}`}
               className="flex items-center justify-center cursor-pointer rounded overflow-hidden border border-skin-base transition hover:opacity-75"
             >
               <Image
-                src={`data:image/jpeg;base64,${item}` ?? productGalleryPlaceholder}
-                alt={`Product thumb gallery ${item.id}`}
+                src={`data:image/jpeg;base64,${item.fileBytes}` ?? productGalleryPlaceholder}
+                alt={`Product thumb gallery ${item.fileBytes.slice(0,2)}`}
                 width={170}
                 height={170}
               />

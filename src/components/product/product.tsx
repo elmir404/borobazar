@@ -32,12 +32,10 @@ const ProductSingleDetails: React.FC = () => {
     query: {slug},
   } = router;
   
-  console.log("router",slug);
   
   const { width } = useWindowSize();
   const { data, isLoading } = useProductQuery(slug as undefined);
-  console.log(data?.data);
-  const image=Array.isArray(data?.data?.images)? `data:image/jpeg;base64,${data?.data?.images[0]}`:'/product-placeholder.svg';
+  const image=Array.isArray(data?.data?.files)? `data:image/jpeg;base64,${data?.data?.files[0].fileBytes}`:'/product-placeholder.svg';
   const { addItemToCart, isInCart, getItemFromCart, isInStock } = useCart();
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [attributes, setAttributes] = useState<{ [key: string]: string }>({});
@@ -47,11 +45,11 @@ const ProductSingleDetails: React.FC = () => {
   const [addToWishlistLoader, setAddToWishlistLoader] =
     useState<boolean>(false);
   const [shareButtonStatus, setShareButtonStatus] = useState<boolean>(false);
-  const productUrl = `${process.env.NEXT_PUBLIC_SITE_URL}${ROUTES.PRODUCT}/${router.query.id}`;
+  const productUrl = `${process.env.NEXT_PUBLIC_SITE_URL}${ROUTES.PRODUCT}/${router.query.slug}`;
   const { price, basePrice, discount } = usePrice(
     data && {
-      amount: data?.unitPrice,
-      baseAmount: data?.unitPrice,
+      amount: data?.data?.unitPrice,
+      baseAmount: data?.data?.unitPrice,
       currencyCode: 'AZN',
       
     }
@@ -124,9 +122,9 @@ const ProductSingleDetails: React.FC = () => {
     <div className="pt-6 md:pt-7 pb-2">
       <div className="lg:grid grid-cols-10 gap-7 2xl:gap-8">
         <div className="col-span-5 xl:col-span-6 overflow-hidden mb-6 md:mb-8 lg:mb-0">
-          {!!data?.data?.images?.length ? (
+          {!!data?.data?.files?.length ? (
             <ThumbnailCarousel
-              gallery={data?.data?.images}
+              gallery={data?.data?.files}
               thumbnailClassName="xl:w-[700px] 2xl:w-[900px]"
               galleryClassName="xl:w-[150px] 2xl:w-[170px]"
             />
@@ -155,11 +153,12 @@ const ProductSingleDetails: React.FC = () => {
                 {data?.data?.unitPrice}
               </div>
             ) : (
-              <VariationPrice
-                selectedVariation={selectedVariation}
-                minPrice={data?.minUnitPrice}
-                maxPrice={data?.maxUnitPrice  }
-              />
+              <></>
+              // <VariationPrice
+              //   selectedVariation={selectedVariation}
+              //   minPrice={data?.minUnitPrice}
+              //   maxPrice={data?.maxUnitPrice  }
+              // />
             )}
 
             {isEmpty(variations) && (
@@ -246,7 +245,7 @@ const ProductSingleDetails: React.FC = () => {
             <Button
               onClick={addToCart}
               className="w-full px-1.5"
-              // disabled={!isSelected}
+                disabled={!isSelected}
               loading={addToCartLoader}
             >
               <CartIcon color="#ffffff" className="me-3" />
@@ -305,7 +304,7 @@ const ProductSingleDetails: React.FC = () => {
           )} */}
         </div>
       </div>
-      <ProductDetailsTab />
+      <ProductDetailsTab product={data?.data} />
     </div>
   );
 };

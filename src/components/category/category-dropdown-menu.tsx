@@ -21,7 +21,6 @@ const CategoryDropdownMenu: React.FC<CategoryDropdownProps> = ({
   } = useCategoriesQuery({
     limit: 15,
   });
- console.log("categories data:",data)
   return (
     <div className={cn('absolute z-30', className)}>
       <div className="max-h-full overflow-hidden">

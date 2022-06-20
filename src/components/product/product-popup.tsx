@@ -73,7 +73,9 @@ export default function ProductPopup() {
     currencyCode: 'AZN',
   });
   const variations = getVariations(data.variations);
-  const { id, name, note,categoryId,image } = data;
+  const { id, name, note,categoryId,files } = data;
+  const image=Array.isArray(files)? `data:image/jpeg;base64,${files[0].fileBytes}`:productGalleryPlaceholder;
+
   const productUrl = `${process.env.NEXT_PUBLIC_SITE_URL}${ROUTES.PRODUCT}/${id}`;
   const handleChange = () => {
     setShareButtonStatus(!shareButtonStatus);
@@ -121,6 +123,7 @@ export default function ProductPopup() {
     setTimeout(() => {
       setAddToWishlistLoader(false);
     }, 1500);
+    addItemToCart(item, selectedQuantity);
     toast(toastStatus, {
       progressClassName: 'fancy-progress-bar',
       position: width! > 768 ? 'bottom-right' : 'top-right',
@@ -146,28 +149,18 @@ export default function ProductPopup() {
         <div className="px-4 md:px-6 lg:p-8 2xl:p-10 mb-9 lg:mb-2 pt-4 md:pt-7 2xl:pt-10">
           <div className="lg:flex items-start justify-between">
             <div className="xl:flex items-center justify-center overflow-hidden mb-6 md:mb-8 lg:mb-0">
-              {!!image?.length ? (
-                <ThumbnailCarousel gallery={image} />
+              {!!files?.length ? (
+                <ThumbnailCarousel gallery={files} />
               ) : (
                 <div className="w-auto flex items-center justify-center">
                   <Image
-                    src={image?.original ?? productGalleryPlaceholder}
+                    src={image ?? productGalleryPlaceholder}
                     alt={name!}
                     width={650}
                     height={590}
                   />
                 </div>
               )}
-              {
-                 <div className="w-auto flex items-center justify-center">
-                 <Image
-                   src={ productGalleryPlaceholder}
-                   alt={name!}
-                   width={650}
-                   height={590}
-                 />
-               </div>
-              }
             </div>
 
             <div className="flex-shrink-0 flex flex-col lg:ps-5 xl:ps-8 2xl:ps-10 lg:w-[430px] xl:w-[470px] 2xl:w-[480px]">
@@ -241,7 +234,7 @@ export default function ProductPopup() {
                   </>
                 )}
 
-                {!isEmpty(selectedVariation) && (
+                {/* {!isEmpty(selectedVariation) && (
                   <span className="text-sm font-medium text-skin-yellow-two">
                     {selectedVariation?.is_disable ||
                     selectedVariation.quantity === 0
@@ -254,11 +247,11 @@ export default function ProductPopup() {
                           t('text-left-item')
                         }`}
                   </span>
-                )}
+                )} */}
               </div>
 
               <div className="pt-1.5 lg:pt-3 xl:pt-4 space-y-2.5 md:space-y-3.5">
-                <Counter
+                {/* <Counter
                   variant="single"
                   value={selectedQuantity}
                   onIncrement={() => setSelectedQuantity((prev) => prev + 1)}
@@ -271,7 +264,7 @@ export default function ProductPopup() {
                         Number(item.stock)
                       : selectedQuantity >= Number(item.stock)
                   }
-                />
+                /> */}
                 <Button
                   onClick={addToCart}
                   className="w-full px-1.5"
@@ -284,13 +277,14 @@ export default function ProductPopup() {
                 <div className="grid grid-cols-2 gap-2.5">
                   <Button
                     variant="border"
-                    onClick={addToWishlist}
-                    loading={addToWishlistLoader}
+                     onClick={addToWishlist }
+                     disabled={!isSelected}
+                     loading={addToCartLoader}
                     className={`group hover:text-skin-primary ${
                       favorite === true && 'text-skin-primary'
                     }`}
                   >
-                    {favorite === true ? (
+                    {favorite === true && outOfStock ? (
                       <IoIosHeart className="text-2xl md:text-[26px] me-2 transition-all" />
                     ) : (
                       <IoIosHeartEmpty className="text-2xl md:text-[26px] me-2 transition-all group-hover:text-skin-primary" />

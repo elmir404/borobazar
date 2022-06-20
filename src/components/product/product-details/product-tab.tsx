@@ -1,19 +1,30 @@
 import { useState } from 'react';
+import type { FC } from 'react';
+import { Product } from '@framework/types';
 import { Tab } from '@headlessui/react';
 import Heading from '@components/ui/heading';
 import ProductReviewRating from './product-review-rating';
+import { useTranslation } from 'next-i18next';
+import RelatedProductFeed from '@components/product/feeds/related-product-feed';
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ');
 }
-
-export default function ProductDetailsTab() {
+interface ProductProps {
+  product: Product;
+  className?: string;
+}
+const ProductDetailsTab: FC<ProductProps> = ({ product, className }) => {
   let [tabHeading] = useState({
     Product_Details: '',
     Review_Rating: '',
   });
+  const { t } = useTranslation();
 
+  const { id,model, email, phone,unitPrice,note,categoryId } = product ?? {};
+ 
   return (
+    <>
     <div className="w-full xl:px-2 py-11 lg:py-14 xl:py-16 sm:px-0">
       <Tab.Group>
         <Tab.List className="block border-b border-skin-base space-s-8">
@@ -37,90 +48,55 @@ export default function ProductDetailsTab() {
           <Tab.Panel className="lg:flex">
             <div className="text-sm sm:text-15px text-skin-muted leading-[2em] space-y-4 lg:space-y-5 xl:space-y-7">
               <p>
-                Go sporty this summer with this vintage navy and white striped
-                v-neck t-shirt from the Abercrombie & Fitch. Perfect for pairing
-                with denim and white kicks for a stylish sporty vibe. Will fit a
-                UK 8-10, model shown is a UK 8 and 5’5. !!
+               {note}
               </p>
-              <p>
-                Typography is the work of typesetters, compositors,
-                typographers, graphic designers, art directors, manga artists,
-                comic book artists, graffiti artists, and now—anyone who
-                arranges words, letters, numbers, and symbols for publication,
-                display, or distribution—from clerical workers and newsletter
-                writers to anyone self-publishing materials.
-              </p>
-              <p>
-                Hit your next boxing workout with a combination it’s never seen
-                before in the Combat Drop Arm Tank, including a
-                freedom-instilling regular fit and dropped armhole to allow you
-                to throw jabs and hooks at the punching bag with ease. A
-                lightweight material keeps you fighting fit, and fresh.
-              </p>
-              <p>
-                Go sporty this summer with this vintage navy and white striped
-                v-neck t-shirt from the Abercrombie & Fitch. Perfect for pairing
-                with denim and white kicks for a stylish sporty vibe. Will fit a
-                UK 8-10, model shown is a UK 8 and 5’5. !!
-              </p>
+              
+              
+             
             </div>
-            <div className="flex-shrink-0 lg:w-[400px] xl:w-[480px] 2xl:w-[550px] 3xl:w-[680px] lg:ps-10 xl:ps-14 2xl:ps-20 pt-5 lg:pt-0">
+            <div className="flex-shrink-0 lg:w-[500px] xl:w-[600px] 2xl:w-[650px] 3xl:w-[800px] lg:ps-10 xl:ps-14 2xl:ps-20 pt-5 lg:pt-0">
               <Heading
                 variant="mediumHeading"
                 className="xl:text-lg mb-4 pt-0.5"
               >
-                Nutrition Facts
+                {t('forms:personal-information')}
               </Heading>
               <div className="border border-skin-four rounded">
                 <table className="w-full text-skin-base text-15px">
                   <thead>
-                    <tr className="border-b border-skin-four">
-                      <th className="px-4 lg:px-5 xl:px-6 pt-3 pb-4 lg:pb-6 text-start text-sm lg:text-15px xl:text-base font-medium">
+                    {/* <tr className="border-b border-skin-four">
+                      <th className="border-s border-skin-four px-4 lg:px-5 xl:px-6 pt-3 pb-5 text-end w-24 lg:w-28 xl:w-36 font-semibold text-2xl lg:text-3xl xl:text-[36px]">
                         Amount per serving
                         <span className="block font-semibold text-lg lg:text-xl xl:text-2xl pt-0.5">
                           Calories
                         </span>
                       </th>
-                      <th className="border-s border-skin-four px-4 lg:px-5 xl:px-6 pt-3 pb-5 text-end w-24 lg:w-28 xl:w-36 font-semibold text-2xl lg:text-3xl xl:text-[36px]">
+                      <th  className="px-4 lg:px-5 xl:px-6 pt-3 pb-4 lg:pb-6 text-start text-sm lg:text-15px xl:text-base font-medium" >
                         70
                       </th>
-                    </tr>
+                    </tr> */}
                   </thead>
                   <tbody>
                     <tr className="border-b font-normal border-skin-four last:border-b-0">
+                      <td className="border-s border-skin-four px-4 lg:px-5 xl:px-6 py-3 text-end w-24 lg:w-28 xl:w-36" >
+                        Ad:
+                      </td>
+                      <td className="px-4 lg:px-5 xl:px-6 py-3" >
+                        {model}
+                      </td>
+                    </tr>
+                    <tr className="border-b font-normal border-skin-four last:border-b-0">
+                      <td className="border-s border-skin-four px-4 lg:px-5 xl:px-6 py-3 text-end w-30 lg:w-30 xl:w-36">
+                        Telefon:
+                      </td>
+                      <td  className="px-4 lg:px-5 xl:px-6 py-3">
+                        {phone}
+                      </td>
+                    </tr>
+                    <tr className="border-b font-normal border-skin-four last:border-b-0">
+                      <td className="border-s border-skin-four px-4 lg:px-5 xl:px-6 py-3 text-end w-24 lg:w-28 xl:w-36" >E-poçt:</td>
                       <td className="px-4 lg:px-5 xl:px-6 py-3">
-                        Total Fat 5g
-                      </td>
-                      <td className="border-s border-skin-four px-4 lg:px-5 xl:px-6 py-3 text-end w-24 lg:w-28 xl:w-36">
-                        6%
-                      </td>
-                    </tr>
-                    <tr className="border-b font-normal border-skin-four last:border-b-0">
-                      <td className="px-4 lg:px-5 xl:px-6 py-3">
-                        Cholesterol 185mg
-                      </td>
-                      <td className="border-s border-skin-four px-4 lg:px-5 xl:px-6 py-3 text-end w-24 lg:w-28 xl:w-36">
-                        62%
-                      </td>
-                    </tr>
-                    <tr className="border-b font-normal border-skin-four last:border-b-0">
-                      <td className="px-4 lg:px-5 xl:px-6 py-3">Sodium 70mg</td>
-                      <td className="border-s border-skin-four px-4 lg:px-5 xl:px-6 py-3 text-end w-24 lg:w-28 xl:w-36">
-                        49%
-                      </td>
-                    </tr>
-                    <tr className="border-b font-normal border-skin-four last:border-b-0">
-                      <td className="px-4 lg:px-5 xl:px-6 py-3">
-                        Total Carbohydrate 0g
-                      </td>
-                      <td className="border-s border-skin-four px-4 lg:px-5 xl:px-6 py-3 text-end w-24 lg:w-28 xl:w-36">
-                        18%
-                      </td>
-                    </tr>
-                    <tr className="border-b font-normal border-skin-four last:border-b-0">
-                      <td className="px-4 lg:px-5 xl:px-6 py-3">Protein 6g</td>
-                      <td className="border-s border-skin-four px-4 lg:px-5 xl:px-6 py-3 text-end w-24 lg:w-28 xl:w-36">
-                        35%
+                        {email}
                       </td>
                     </tr>
                   </tbody>
@@ -133,6 +109,15 @@ export default function ProductDetailsTab() {
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
+      
     </div>
+    <RelatedProductFeed
+          uniqueKey="related-products"
+          categoryId={categoryId}
+          productId={String(id)}
+          className="mb-0.5 md:mb-2 lg:mb-3.5 xl:mb-4 2xl:mb-6"
+        />
+    </>
   );
 }
+export default ProductDetailsTab;

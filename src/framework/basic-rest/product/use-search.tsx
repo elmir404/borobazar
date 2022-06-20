@@ -11,7 +11,6 @@ export const fetchSearchedProducts = async ({ queryKey}: any) => {
   return data;
 };
 export const useSearchQuery = (options: QueryOptionsType) => {
-  console.log("search options",options);
   
   return  useQuery<Product[], Error>(
    

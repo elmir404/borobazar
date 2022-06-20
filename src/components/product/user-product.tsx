@@ -16,7 +16,7 @@ const ProductUserGrid: FC<ProductUserProps> = ({
   let { data, isLoading, error } = userProducts({
     limit: limit,
   });
-  console.log("data",data?.data);
+  console.log("data",data);
   
   return (
     <div className={cn(className)}>

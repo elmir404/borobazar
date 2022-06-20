@@ -8,7 +8,6 @@ export const fetchLoggedUser = async ({ queryKey }: any) => {
   const {
     data: { data },
   } = await http.get(API_ENDPOINTS.LOGGEDUSER);
-  console.log(data);
   
   return { data: { data } };
 };

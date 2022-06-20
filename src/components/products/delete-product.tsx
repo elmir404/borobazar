@@ -23,7 +23,6 @@ const DeleteProductForm: React.FC = () => {
   const { t } = useTranslation();
   const { data } = useModalState();
   const placeholderImage = `/assets/images/warning.png`;
-    console.log("sds",data);
     
   const { closeModal } = useModalAction();
 

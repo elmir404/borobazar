@@ -14,10 +14,11 @@ interface ProductProps {
 
 const UserProductCart: FC<ProductProps> = ({ product, className }) => {
   const { t } = useTranslation('common');
-  const { id,name, images, unitPrice } = product ?? {};
+  const { id,name, files, unitPrice } = product ?? {};
+  console.log("product",product);
   
   const placeholderImage = `/assets/placeholder/product.svg`;
-  const image=Array.isArray(images)? `data:image/jpeg;base64,${images[0]}`:placeholderImage;
+  const image=Array.isArray(files)? `data:image/jpeg;base64,${files[0].fileBytes}`:placeholderImage;
 
   const [favorite, setFavorite] = useState<boolean>(false);
   const { openModal } = useModalAction();
@@ -28,7 +29,7 @@ const UserProductCart: FC<ProductProps> = ({ product, className }) => {
   });
 
   function handlePopupView(item: any) {
-    console.log(item);
+    
     
     openModal('DELETE-PRODUCT', item);
   }
@@ -55,7 +56,7 @@ const UserProductCart: FC<ProductProps> = ({ product, className }) => {
           <div className="text-13px sm:text-sm mb-1 lg:mb-2">{product.producer}</div>
           <div className="space-s-2 ">
             <span className="inline-block font-semibold text-sm sm:text-15px lg:text-base text-skin-base">
-              {unitPrice}
+              {price}
             </span>
             {discount && (
               <del className="text-sm text-skin-base text-opacity-50">

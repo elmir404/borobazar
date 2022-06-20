@@ -59,7 +59,6 @@ if(data?.response.success){
   } = useLoggedUserQuery({
     limit: 15,
   });
-  console.log("add product",user?.data?.data?.firstName,loading1);
   const {
     register,
     handleSubmit,
@@ -110,7 +109,6 @@ if(data?.response.success){
   }
   const onDrop= useCallback(
     (acceptedFiles) => {
-    console.log("accepted files:",acceptedFiles);
     const accFiles =acceptedFiles;
     setImage(accFiles);
     setValue("Files", acceptedFiles, { shouldValidate: true })

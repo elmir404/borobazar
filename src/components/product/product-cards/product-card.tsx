@@ -57,9 +57,8 @@ function RenderPopupOrAddToCart({ data }: { data: Product }) {
   return <AddToCart data={data} />;
 }
 const ProductCard: React.FC<ProductProps> = ({ product, className }) => {
-  const { name, images, unit, product_type } = product ?? {};
-  const image=Array.isArray(images)? `data:image/jpeg;base64,${images[0]}`:productPlaceholder;
-  //  console.log(`image:image/jpeg;base64,${image}`);
+  const { name, files, unit, product_type } = product ?? {};
+  const image=Array.isArray(files)? `data:image/jpeg;base64,${files[0].fileBytes}`:productPlaceholder;
    
   const { openModal } = useModalAction();
   const { t } = useTranslation('common');

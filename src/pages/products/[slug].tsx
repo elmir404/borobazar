@@ -21,7 +21,6 @@ export default function ProductPage() {
         </Container>
       </div>
 
-      <RelatedProductFeed uniqueKey="related-products" />
      
       <DownloadApps />
     </>
